@@ -28,7 +28,7 @@ function loadJobs ()
     end
 end
 
-ESX.RegisterServerCallback('kc_admin:soyadmin', function(playerId, cb)
+ESX.RegisterServerCallback('kc_adminV2:soyadmin', function(playerId, cb)
     local xPlayer = ESX.GetPlayerFromId(playerId)
     if xPlayer.getGroup() == 'admin' then
         cb(true)
@@ -243,13 +243,13 @@ end)
 
 -- Server Events --
 
-RegisterServerEvent("kc_admin:global_message")
-AddEventHandler("kc_admin:global_message", function (security_code, message)
-    TriggerClientEvent("kc_admin:send_message", -1, message)
+RegisterServerEvent("kc_adminV2:global_message")
+AddEventHandler("kc_adminV2:global_message", function (security_code, message)
+    TriggerClientEvent("kc_adminV2:send_message", -1, message)
 end)
 
-RegisterServerEvent("kc_admin:remote_group")
-AddEventHandler("kc_admin:remote_group", function (id, callback)
+RegisterServerEvent("kc_adminV2:remote_group")
+AddEventHandler("kc_adminV2:remote_group", function (id, callback)
     local group = getGroup(id)
     callback(group)
 end)
@@ -295,14 +295,14 @@ AddEventHandler("playerConnecting", function (user, setKickReason, deferrals)
 
 end)
 
-RegisterServerEvent("kc_admin:get_bans")
-AddEventHandler("kc_admin:get_bans", function (days, name)
+RegisterServerEvent("kc_adminV2:get_bans")
+AddEventHandler("kc_adminV2:get_bans", function (days, name)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -355,17 +355,17 @@ AddEventHandler("kc_admin:get_bans", function (days, name)
 
     filtered_bans = json.encode(filtered_bans)
 
-    TriggerClientEvent("kc_admin:recv_bans", Source, filtered_bans)
+    TriggerClientEvent("kc_adminV2:recv_bans", Source, filtered_bans)
 end)
 
-RegisterServerEvent("kc_admin:set_job")
-AddEventHandler("kc_admin:set_job", function (target_id, job_name, job_grade)
+RegisterServerEvent("kc_adminV2:set_job")
+AddEventHandler("kc_adminV2:set_job", function (target_id, job_name, job_grade)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not Player.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -378,30 +378,30 @@ AddEventHandler("kc_admin:set_job", function (target_id, job_name, job_grade)
             if Config.CheckJobExist then
                 if ESX.DoesJobExist(job_name, job_grade) then
                     xPlayer.setJob(job_name, job_grade)
-                    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Job .. job_name, "success")
+                    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Job .. job_name, "success")
                 else
-                    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.JobFail, "danger")
+                    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.JobFail, "danger")
                 end
             else
                 xPlayer.setJob(job_name, job_grade)
-                TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Job .. job_name, "success")
+                TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Job .. job_name, "success")
             end
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.ESX, "danger")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.ESX, "danger")
         end
     else
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.ESX, "danger")
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.ESX, "danger")
     end
 end)
 
-RegisterServerEvent("kc_admin:set_money")
-AddEventHandler("kc_admin:set_money", function (target_id, money_amount, money_type)
+RegisterServerEvent("kc_adminV2:set_money")
+AddEventHandler("kc_adminV2:set_money", function (target_id, money_amount, money_type)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -411,21 +411,21 @@ AddEventHandler("kc_admin:set_money", function (target_id, money_amount, money_t
         if xPlayer ~= nil then
             if money_type == "money" then
                 xPlayer.setMoney(money_amount)
-                TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Money .. money_type, "success")
+                TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Money .. money_type, "success")
             else
                 xPlayer.setAccountMoney(money_type, money_amount)
-                TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Money .. money_type, "success")
+                TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Money .. money_type, "success")
             end
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.ESX, "danger")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.ESX, "danger")
         end
     else
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.ESX, "danger")
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.ESX, "danger")
     end
 end)
 
-RegisterServerEvent("kc_admin:check_jail")
-AddEventHandler("kc_admin:check_jail", function()
+RegisterServerEvent("kc_adminV2:check_jail")
+AddEventHandler("kc_adminV2:check_jail", function()
     local Source = source
 
     Citizen.Wait(2000)
@@ -439,12 +439,12 @@ AddEventHandler("kc_admin:check_jail", function()
         local id = mysql_jails[1]["id"]
         local result = MySQL.execute_async("UPDATE users SET time = @time WHERE id = @id", {["@time"] = getTime() + time, ["@id"] = id})
         time = tonumber(time)
-        TriggerClientEvent("kc_admin:jail_player", Source, time)
+        TriggerClientEvent("kc_adminV2:jail_player", Source, time)
     end
 end)
 
-RegisterServerEvent("kc_admin:unjail")
-AddEventHandler("kc_admin:unjail", function (target_id, force)
+RegisterServerEvent("kc_adminV2:unjail")
+AddEventHandler("kc_adminV2:unjail", function (target_id, force)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
@@ -454,10 +454,10 @@ AddEventHandler("kc_admin:unjail", function (target_id, force)
         if xPlayer.getGroup() == 'admin' then
             MySQL.execute_async("DELETE FROM kc_jails WHERE identifier = @identifier", {["@identifier"] = identifier}, function (rows)
                 if rows == 1 then
-                    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.UnJail, "success")
-                    TriggerClientEvent("kc_admin:unjail_player", target_id)
+                    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.UnJail, "success")
+                    TriggerClientEvent("kc_adminV2:unjail_player", target_id)
                 else
-                    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.UnJailError, "danger")
+                    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.UnJailError, "danger")
                 end
             end)
             CancelEvent()
@@ -479,18 +479,18 @@ AddEventHandler("kc_admin:unjail", function (target_id, force)
 
     if getTime() >= jail_time then
         local unjail_sql = MySQL.execute_async("DELETE FROM kc_jails WHERE identifier = @identifier", {["@identifier"] = identifier})
-        TriggerClientEvent("kc_admin:unjail_player", target_id)
+        TriggerClientEvent("kc_adminV2:unjail_player", target_id)
     end
 end)
 
-RegisterServerEvent("kc_admin:jail")
-AddEventHandler("kc_admin:jail", function (target_id, time)
+RegisterServerEvent("kc_adminV2:jail")
+AddEventHandler("kc_adminV2:jail", function (target_id, time)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -507,98 +507,98 @@ AddEventHandler("kc_admin:jail", function (target_id, time)
 
     MySQL.execute_async("INSERT INTO kc_jails (identifier, name, admin_name, admin_identifier, time, time_s) VALUES (@identifier, @name, @admin_name, @admin_identifier, @timestamp, @time)", {["@identifier"] = identifier, ["@name"] = user_name, ["@admin_name"] = admin_name, ["@admin_identifier"] = admin_identifier, ["@timestamp"] = timestamp, ["@time"] = time}, function(rows)
         if rows == 1 then
-            TriggerClientEvent("kc_admin:jail_player", target_id, time)
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Jail, "success")
-            TriggerEvent("kc_admin:global_message", Config.SecurityCode, string.format(Lang.Global.PlayerJailed, user_name, time_m))
+            TriggerClientEvent("kc_adminV2:jail_player", target_id, time)
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Jail, "success")
+            TriggerEvent("kc_adminV2:global_message", Config.SecurityCode, string.format(Lang.Global.PlayerJailed, user_name, time_m))
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.JailError, "danger")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.JailError, "danger")
         end
     end)
 
 end)
 
-RegisterServerEvent("kc_admin:freeze")
-AddEventHandler("kc_admin:freeze", function (target_id)
+RegisterServerEvent("kc_adminV2:freeze")
+AddEventHandler("kc_adminV2:freeze", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:freeze_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Freeze, "success")
+    TriggerClientEvent("kc_adminV2:freeze_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Freeze, "success")
 end)
 
-RegisterServerEvent("kc_admin:revive")
-AddEventHandler("kc_admin:revive", function (target_id)
+RegisterServerEvent("kc_adminV2:revive")
+AddEventHandler("kc_adminV2:revive", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:revive_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.ReviveN, "success")
+    TriggerClientEvent("kc_adminV2:revive_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.ReviveN, "success")
 end)
 
-RegisterServerEvent("kc_admin:slay")
-AddEventHandler("kc_admin:slay", function (target_id)
+RegisterServerEvent("kc_adminV2:slay")
+AddEventHandler("kc_adminV2:slay", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
     
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:slay_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Slay, "success")
+    TriggerClientEvent("kc_adminV2:slay_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Slay, "success")
 end)
 
-RegisterServerEvent("kc_admin:visibility")
-AddEventHandler("kc_admin:visibility", function (target_id)
+RegisterServerEvent("kc_adminV2:visibility")
+AddEventHandler("kc_adminV2:visibility", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:visibility_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Visibility, "success")
+    TriggerClientEvent("kc_adminV2:visibility_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Visibility, "success")
 end)
 
-RegisterServerEvent("kc_admin:noclip")
-AddEventHandler("kc_admin:noclip", function (target_id)
+RegisterServerEvent("kc_adminV2:noclip")
+AddEventHandler("kc_adminV2:noclip", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:noclip_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Noclip, "success")
+    TriggerClientEvent("kc_adminV2:noclip_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Noclip, "success")
 end)
 
-RegisterServerEvent("kc_admin:set_group")
-AddEventHandler("kc_admin:set_group", function (mod_source, target_id, group)
+RegisterServerEvent("kc_adminV2:set_group")
+AddEventHandler("kc_adminV2:set_group", function (mod_source, target_id, group)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
@@ -610,8 +610,8 @@ AddEventHandler("kc_admin:set_group", function (mod_source, target_id, group)
     local xPlayer_steamid = getIdentifier(target_id)
 
     if not Player.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -623,27 +623,27 @@ AddEventHandler("kc_admin:set_group", function (mod_source, target_id, group)
     xPlayer.showNotification(GetPlayerName(Source).." te ha dado el grupo de "..group)
 end)
 
-RegisterServerEvent("kc_admin:return")
-AddEventHandler("kc_admin:return", function (target_id)
+RegisterServerEvent("kc_adminV2:return")
+AddEventHandler("kc_adminV2:return", function (target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     local admin_name = getName(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:return_player", target_id)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Return, "success")
-    TriggerClientEvent("kc_admin:send_message", target_id, "^2" .. admin_name .. "^0" .. Lang.ReturnPlayer)
+    TriggerClientEvent("kc_adminV2:return_player", target_id)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Return, "success")
+    TriggerClientEvent("kc_adminV2:send_message", target_id, "^2" .. admin_name .. "^0" .. Lang.ReturnPlayer)
 end)
 
-RegisterServerEvent("kc_admin:goto")
-AddEventHandler("kc_admin:goto", function (target_id, target_coords)
+RegisterServerEvent("kc_adminV2:goto")
+AddEventHandler("kc_adminV2:goto", function (target_id, target_coords)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
@@ -651,58 +651,58 @@ AddEventHandler("kc_admin:goto", function (target_id, target_coords)
     local user_name = getName(target_id)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:send_message", target_id, "^2" .. admin_name .. "^0" .. Lang.Goto)
-    TriggerClientEvent("kc_admin:teleport_player", Source, target_coords)
-    TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.GotoN .. user_name, "success")
+    TriggerClientEvent("kc_adminV2:send_message", target_id, "^2" .. admin_name .. "^0" .. Lang.Goto)
+    TriggerClientEvent("kc_adminV2:teleport_player", Source, target_coords)
+    TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.GotoN .. user_name, "success")
 end)
 
-RegisterServerEvent("kc_admin:bring")
-AddEventHandler("kc_admin:bring", function(admin_coords, target_id)
+RegisterServerEvent("kc_adminV2:bring")
+AddEventHandler("kc_adminV2:bring", function(admin_coords, target_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     local admin_name = getName(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
 
-    TriggerClientEvent("kc_admin:teleport_player", target_id, admin_coords)
-    TriggerClientEvent("kc_admin:send_message", target_id, Lang.Bringed .. "^2" .. admin_name)
+    TriggerClientEvent("kc_adminV2:teleport_player", target_id, admin_coords)
+    TriggerClientEvent("kc_adminV2:send_message", target_id, Lang.Bringed .. "^2" .. admin_name)
 end)
 
-RegisterServerEvent("kc_admin:delete_ban")
-AddEventHandler("kc_admin:delete_ban", function (ban_id)
+RegisterServerEvent("kc_adminV2:delete_ban")
+AddEventHandler("kc_adminV2:delete_ban", function (ban_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     --[[if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end--]]
 
     MySQL.execute_async("DELETE FROM kc_bans WHERE id=@id", {["@id"] = ban_id}, function (rows)
         if rows == 1 then
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.UnBan, "success")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.UnBan, "success")
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.UnBanError, "danger")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.UnBanError, "danger")
         end
     end)
 end)
 
-RegisterServerEvent("kc_admin:kick")
-AddEventHandler("kc_admin:kick", function (mod_source, target_id, reason)
+RegisterServerEvent("kc_adminV2:kick")
+AddEventHandler("kc_adminV2:kick", function (mod_source, target_id, reason)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
     local target_name = getName(target_id)
@@ -717,8 +717,8 @@ AddEventHandler("kc_admin:kick", function (mod_source, target_id, reason)
     xPlayer.showNotification("~g~Se ha expulsado correctamente del servidor a ~s~"..target_name)
 end)
 
-RegisterServerEvent("kc_admin:ban")
-AddEventHandler("kc_admin:ban", function (mod_source, target_id, reason, time)
+RegisterServerEvent("kc_adminV2:ban")
+AddEventHandler("kc_adminV2:ban", function (mod_source, target_id, reason, time)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
@@ -727,8 +727,8 @@ AddEventHandler("kc_admin:ban", function (mod_source, target_id, reason, time)
     end
 
     --[[if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", mod_source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", mod_source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end--]]
@@ -761,66 +761,66 @@ AddEventHandler("kc_admin:ban", function (mod_source, target_id, reason, time)
     MySQL.execute_async("INSERT INTO kc_bans (identifier, reason, name, ip, admin_name, admin_identifier, time, date) VALUES(@identifier, @reason, @name, @ip, @admin_name, @admin_identifier, @time, @date)", {["@identifier"] = user_identifier, ["@reason"] = reason, ["@name"] = user_name, ["@ip"] = user_ip, ["@admin_name"] = admin_name, ["@admin_identifier"] = admin_identifier, ["@time"] = time, ["@date"] = date}, function(rows)
         if rows == 1 then
             if mod_source ~= Groups.Server then
-                TriggerClientEvent("kc_admin:send_notify", mod_source, Lang.Success, Lang.BannedSuccessfully, "success")
+                TriggerClientEvent("kc_adminV2:send_notify", mod_source, Lang.Success, Lang.BannedSuccessfully, "success")
             end
-            TriggerClientEvent("kc_admin:send_message", target_id, "^1" .. Lang.Banned .. ".")
+            TriggerClientEvent("kc_adminV2:send_message", target_id, "^1" .. Lang.Banned .. ".")
             Citizen.Wait(1000)
-            TriggerEvent("kc_admin:kick", Groups.Server, target_id, Lang.Banned)
+            TriggerEvent("kc_adminV2:kick", Groups.Server, target_id, Lang.Banned)
 
-            TriggerEvent("kc_admin:global_message", -1, string.format(Lang.Global.PlayerBanned, user_name, reason))
+            TriggerEvent("kc_adminV2:global_message", -1, string.format(Lang.Global.PlayerBanned, user_name, reason))
         else
             if mod_source ~= Groups.Server then
-                TriggerClientEvent("kc_admin:send_notify", mod_source, Lang.Error, Lang.BanError, "danger")
+                TriggerClientEvent("kc_adminV2:send_notify", mod_source, Lang.Error, Lang.BanError, "danger")
             end
         end
     end)
 end)
 
-RegisterServerEvent("kc_admin:reload_groups")
-AddEventHandler("kc_admin:reload_groups", function ()
+RegisterServerEvent("kc_adminV2:reload_groups")
+AddEventHandler("kc_adminV2:reload_groups", function ()
     users_cache = {}
-    TriggerClientEvent("kc_admin:order_group", -1)
+    TriggerClientEvent("kc_adminV2:order_group", -1)
 end)
 
-RegisterServerEvent("kc_admin:request_group")
-AddEventHandler("kc_admin:request_group", function ()
+RegisterServerEvent("kc_adminV2:request_group")
+AddEventHandler("kc_adminV2:request_group", function ()
     local Source = source
 
     local group = getGroup(Source)
     local xPlayer = getIdentifier(Source)
 
 
-    TriggerClientEvent("kc_admin:get_group", Source, group)
+    TriggerClientEvent("kc_adminV2:get_group", Source, group)
 end)
 
-RegisterServerEvent("kc_admin:delete_warn")
-AddEventHandler("kc_admin:delete_warn", function (warn_id)
+RegisterServerEvent("kc_adminV2:delete_warn")
+AddEventHandler("kc_adminV2:delete_warn", function (warn_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
     end
 
     MySQL.execute_async("DELETE FROM kc_warns WHERE id = @warn_id", {["warn_id"] = warn_id}, function(rows)
         if rows == 1 then
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.WarnDeleted .. getName(Source), "success")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.WarnDeleted .. getName(Source), "success")
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.WarnDeletedError, "danger")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.WarnDeletedError, "danger")
         end
     end)
 
 end)
 
-RegisterServerEvent("kc_admin:warn")
-AddEventHandler("kc_admin:warn", function (user_id, reason, date, table_id)
+RegisterServerEvent("kc_adminV2:warn")
+AddEventHandler("kc_adminV2:warn", function (user_id, reason, date, table_id)
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.InsufficientPrivileges, "danger")
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -833,29 +833,29 @@ AddEventHandler("kc_admin:warn", function (user_id, reason, date, table_id)
 
     MySQL.execute_async("INSERT INTO kc_warns (name, identifier, admin_name, admin_identifier, reason, timestamp) VALUES (@user_name, @user_identifier, @admin_name, @admin_identifier, @reason, @timestamp)", {["@user_name"] = user_name, ["@user_identifier"] = user_identifier, ["@admin_name"] = admin_name, ["@admin_identifier"] = admin_identifier, ["@reason"] = reason, ["@timestamp"] = date}, function(rows)
         if rows == 1 then
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Success, Lang.Warn .. user_name, "success")
-            TriggerClientEvent("kc_admin:send_message", user_id, "^2" .. admin_name .. Lang.Warned .. "^0" .. reason .. ".")
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Success, Lang.Warn .. user_name, "success")
+            TriggerClientEvent("kc_adminV2:send_message", user_id, "^2" .. admin_name .. Lang.Warned .. "^0" .. reason .. ".")
 
             MySQL.query.await("SELECT id FROM kc_warns WHERE admin_identifier=@admin_identifier AND identifier=@identifier AND timestamp=@timestamp AND reason=@reason", {["@admin_identifier"] = admin_identifier, ["@identifier"] = user_identifier, ["@timestamp"] = date, ["@reason"] = reason}, function (result)
                 if ArrayLength(result) ~= 0 then
-                    TriggerClientEvent("kc_admin:fix_table", Source, table_id, result[1]["id"])
+                    TriggerClientEvent("kc_adminV2:fix_table", Source, table_id, result[1]["id"])
                 end
                 MySQL.query.await("SELECT id FROM kc_warns WHERE identifier=@identifier", {["@identifier"] = user_identifier}, function(result)
 
                     warn_count = ArrayLength(result)
 
                     if warn_count >= Config.WarnPerma then
-                        TriggerEvent("kc_admin:perma_ban", Groups.Server, user_id, Lang.WarnAccumulation .. warn_count)
+                        TriggerEvent("kc_adminV2:perma_ban", Groups.Server, user_id, Lang.WarnAccumulation .. warn_count)
                         return
                     end
 
                     if warn_count == Config.WarnWeek then
-                        TriggerEvent("kc_admin:ban", Groups.Server, user_id, Lang.WarnAccumulation .. warn_count ,1468800)
+                        TriggerEvent("kc_adminV2:ban", Groups.Server, user_id, Lang.WarnAccumulation .. warn_count ,1468800)
                         return
                     end
 
                     if warn_count == Config.WarnDays then
-                        TriggerEvent("kc_admin:ban", Groups.Server, user_id, Lang.WarnAccumulation  .. warn_count, 259200)
+                        TriggerEvent("kc_adminV2:ban", Groups.Server, user_id, Lang.WarnAccumulation  .. warn_count, 259200)
                         return
                     end
 
@@ -863,21 +863,21 @@ AddEventHandler("kc_admin:warn", function (user_id, reason, date, table_id)
             end)
 
         else
-            TriggerClientEvent("kc_admin:send_notify", Source, Lang.Error, Lang.WarnError, "danger")
-            TriggerClientEvent("kc_admin:remove_table", Source, table_id)
+            TriggerClientEvent("kc_adminV2:send_notify", Source, Lang.Error, Lang.WarnError, "danger")
+            TriggerClientEvent("kc_adminV2:remove_table", Source, table_id)
             CancelEvent()
             return
         end
     end)
 end)
 
-RegisterServerEvent("kc_admin:get_warns")
-AddEventHandler("kc_admin:get_warns", function (id) 
+RegisterServerEvent("kc_adminV2:get_warns")
+AddEventHandler("kc_adminV2:get_warns", function (id) 
     local Source = source
     local xPlayer = ESX.GetPlayerFromId(Source)
 
     if not xPlayer.getGroup() == 'admin' then
-        TriggerClientEvent("kc_admin:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
+        TriggerClientEvent("kc_adminV2:send_message", Source, "^1" .. Lang.InsufficientPrivileges)
         CancelEvent()
         return
     end
@@ -887,19 +887,19 @@ AddEventHandler("kc_admin:get_warns", function (id)
     
     result_json = json.encode(result)
 
-    TriggerClientEvent("kc_admin:recv_warn", Source, id, result_json)
+    TriggerClientEvent("kc_adminV2:recv_warn", Source, id, result_json)
 
 end)
 
-RegisterServerEvent("kc_admin:message_to_group")
-AddEventHandler("kc_admin:message_to_group", function (message, group)
+RegisterServerEvent("kc_adminV2:message_to_group")
+AddEventHandler("kc_adminV2:message_to_group", function (message, group)
     local xPlayers = GetPlayers()
     
     for i in pairs(players) do
         local r_group = getGroup(players[i])
 
         if not lowerGroup(r_group, group) then
-            TriggerClientEvent("kc_admin:send_raw_message", players[i], message)
+            TriggerClientEvent("kc_adminV2:send_raw_message", players[i], message)
         end
     end
 end)

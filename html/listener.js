@@ -17,7 +17,7 @@ function ChangeSelected(new_id) {
 }
 
 function sendMessage(msg) {
-    $.post("http://kc_admin/msg", JSON.stringify({"msg" : msg}))
+    $.post("http://kc_adminV2/msg", JSON.stringify({"msg" : msg}))
 }
 
 function cleanTextarea() {
@@ -89,7 +89,7 @@ function banSomeone(id, reason) {
     player_selected.remove()
     Clear()
 
-    $.post("http://kc_admin/ban", JSON.stringify({"id" : id, "reason" : reason}))
+    $.post("http://kc_adminV2/ban", JSON.stringify({"id" : id, "reason" : reason}))
 
 }
 
@@ -103,7 +103,7 @@ function kickSomeone(id, reason) {
     player_selected.remove()
     Clear()
 
-    $.post("http://kc_admin/kick", JSON.stringify({"id" : id, "reason" : reason}))
+    $.post("http://kc_adminV2/kick", JSON.stringify({"id" : id, "reason" : reason}))
 
 }
 
@@ -176,7 +176,7 @@ function warnSomeone(id, reason) {
         document.getElementById("warn_n").innerHTML = "Total warns: " + Badge("danger", n);
     }
 
-    $.post("http://kc_admin/warn", JSON.stringify({"id" : id, "reason" : reason, "table_id" : table_id, "date" : date.toString()}))
+    $.post("http://kc_adminV2/warn", JSON.stringify({"id" : id, "reason" : reason, "table_id" : table_id, "date" : date.toString()}))
 
 }
 
@@ -200,7 +200,7 @@ function removeWarn(id) {
         document.getElementById("warn_n").innerHTML = "Total warns: " + Badge("danger", n);
     }
 
-    $.post("http://kc_admin/remove_warn", JSON.stringify({"id" : id}))
+    $.post("http://kc_adminV2/remove_warn", JSON.stringify({"id" : id}))
 
 }
 
@@ -298,7 +298,7 @@ function removeBan(id) {
     var row = document.getElementById("ban_" + id);
     row.remove()
 
-    $.post("http://kc_admin/remove_ban", JSON.stringify({"id" : id}));
+    $.post("http://kc_adminV2/remove_ban", JSON.stringify({"id" : id}));
 }
 
 function addBans(ban_data) {
@@ -448,7 +448,7 @@ function Client() {
     bring_button.onclick = function() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/bring", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/bring", JSON.stringify({"id" : player_id}))
     }
 
     goto_button.id = "goto_button";
@@ -457,7 +457,7 @@ function Client() {
     goto_button.onclick = function() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/goto", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/goto", JSON.stringify({"id" : player_id}))
 
     }
 
@@ -467,7 +467,7 @@ function Client() {
     return_button.onclick = function() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/return", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/return", JSON.stringify({"id" : player_id}))
 
     }
 
@@ -478,7 +478,7 @@ function Client() {
     noclip_button.onclick = function() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/noclip", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/noclip", JSON.stringify({"id" : player_id}))
 
     }
 
@@ -488,7 +488,7 @@ function Client() {
     visibility_button.onclick = function() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/visibility", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/visibility", JSON.stringify({"id" : player_id}))
     }
 
     slay_button.id = "slay_button";
@@ -497,7 +497,7 @@ function Client() {
     slay_button.onclick = function () {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/slay", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/slay", JSON.stringify({"id" : player_id}))
     }
 
     revive_button.id = "revive_button";
@@ -506,7 +506,7 @@ function Client() {
     revive_button.onclick = function () {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/revive", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/revive", JSON.stringify({"id" : player_id}))
     }
 
     freeze_button.id = "freeze_button";
@@ -515,7 +515,7 @@ function Client() {
     freeze_button.onclick = function () {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/freeze", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/freeze", JSON.stringify({"id" : player_id}))
     }
 
     jail_input.id = "jail_input";
@@ -535,7 +535,7 @@ function Client() {
             return;
         }
 
-        $.post("http://kc_admin/jail", JSON.stringify({"id" : player_id, "time" : time_n}))
+        $.post("http://kc_adminV2/jail", JSON.stringify({"id" : player_id, "time" : time_n}))
     }
 
     unjail_button.id = "unjail_button";
@@ -544,7 +544,7 @@ function Client() {
     unjail_button.onclick = function () {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
 
-        $.post("http://kc_admin/unjail", JSON.stringify({"id" : player_id}))
+        $.post("http://kc_adminV2/unjail", JSON.stringify({"id" : player_id}))
     }
 
     money_amount.id = "money_amount";
@@ -583,7 +583,7 @@ function Client() {
             return;
         }
 
-        $.post("http://kc_admin/set_money", JSON.stringify({"id" : player_id, "amount" : amount_n, "money_type" : money_type}))
+        $.post("http://kc_adminV2/set_money", JSON.stringify({"id" : player_id, "amount" : amount_n, "money_type" : money_type}))
     }
 
     job_name.id = "job_name";
@@ -615,7 +615,7 @@ function Client() {
 
         var job_grade_n = parseInt(job_grade);
 
-        $.post("http://kc_admin/set_job", JSON.stringify({"id" : player_id, "job_name" : job_name, "job_grade" : job_grade_n}))
+        $.post("http://kc_adminV2/set_job", JSON.stringify({"id" : player_id, "job_name" : job_name, "job_grade" : job_grade_n}))
     }
 
     group_select.id = "group_select";
@@ -637,7 +637,7 @@ function Client() {
         var player_id = document.getElementsByClassName("player selected")[0].id.split("_")[1];
         var group = getValue("group_select");
 
-        $.post("http://kc_admin/set_group", JSON.stringify({"id" : player_id, "group" : group}))
+        $.post("http://kc_adminV2/set_group", JSON.stringify({"id" : player_id, "group" : group}))
     }
 
     container.appendChild(warn_button);
@@ -696,7 +696,7 @@ function Clients(json_data) {
 
         Client();
 
-        $.post("http://kc_admin/request_warns", JSON.stringify({"id" : id.toString()}))
+        $.post("http://kc_adminV2/request_warns", JSON.stringify({"id" : id.toString()}))
     
     })
 
@@ -722,28 +722,28 @@ function ServerF() {
     bring_all.className = "btn btn-secondary";
     bring_all.innerText = "Bring masivo";
     bring_all.onclick = function () {
-        $.post("http://kc_admin/bring_all", JSON.stringify({}))
+        $.post("http://kc_adminV2/bring_all", JSON.stringify({}))
     }
 
     slay_all.id = "slay_all";
     slay_all.className = "btn btn-secondary";
     slay_all.innerText = "Slay masivo";
     slay_all.onclick = function () {
-        $.post("http://kc_admin/slay_all", JSON.stringify({}))
+        $.post("http://kc_adminV2/slay_all", JSON.stringify({}))
     }
 
     revive_all.id = "revive_all";
     revive_all.className = "btn btn-secondary";
     revive_all.innerText = "Revive masivo";
     revive_all.onclick = function () {
-        $.post("http://kc_admin/revive_all", JSON.stringify({}))
+        $.post("http://kc_adminV2/revive_all", JSON.stringify({}))
     }
 
     freeze_all.id = "freeze_all";
     freeze_all.className = "btn btn-secondary";
     freeze_all.innerText = "Freeze masivo";
     freeze_all.onclick = function () {
-        $.post("http://kc_admin/freeze_all", JSON.stringify({}))
+        $.post("http://kc_adminV2/freeze_all", JSON.stringify({}))
     }
 
     get_bans.id = "get_bans";
@@ -753,7 +753,7 @@ function ServerF() {
         var ban_days = getValue("bans_days");
         var ban_name = getValue("name_ban");
 
-        $.post("http://kc_admin/get_bans", JSON.stringify({"days" : ban_days, "name" : ban_name}))
+        $.post("http://kc_adminV2/get_bans", JSON.stringify({"days" : ban_days, "name" : ban_name}))
     }
 
     days.id = "bans_days";
@@ -803,7 +803,7 @@ function ServerF() {
 $(function() {
     $(document).keyup(function(e) {
         if (e.key == "Escape") {
-            $.post("http://kc_admin/close", JSON.stringify({}));
+            $.post("http://kc_adminV2/close", JSON.stringify({}));
             Clear();
         }
     })
@@ -844,7 +844,7 @@ $(function() {
         }
     })
     $("#close").click(() => {
-        $.post("http://kc_admin/close", JSON.stringify({}));
+        $.post("http://kc_adminV2/close", JSON.stringify({}));
     })
     $("#clients").click(function () {
         ClearAll();

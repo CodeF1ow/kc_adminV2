@@ -2,9 +2,9 @@
     <img src="https://i.imgur.com/uh7rzGc.png" width="200">
 </p>
 
-# kc_adminV2
+# kc_adminV2V2
 Panel de Administracion para **FiveM**
-[**Descargar kc_adminV2**](https://github.com/K1ri86/kc_adminV2/archive/refs/heads/main.zip) si tiene algun problema o sugerencia  [únete a mi servidor Discord](https://arcticbot.xyz/discord) para obtener todo lo que necesites!
+[**Descargar kc_adminV2V2**](https://github.com/K1ri86/kc_adminV2V2/archive/refs/heads/main.zip) si tiene algun problema o sugerencia  [únete a mi servidor Discord](https://arcticbot.xyz/discord) para obtener todo lo que necesites!
 ___
 ## Servidor público del bot y soporte técnico!
 
@@ -26,11 +26,11 @@ ___
 ## Instalar Script
 ##### Ejecuta el siguiente Comando en una Terminal o Powershell
 ```
-git clone https://github.com/K1ri86/kc_adminV2
+git clone https://github.com/K1ri86/kc_adminV2V2
 ```
 ##### Tambien puedes descargar directamente desde aqui 
-* [kc_adminV2](https://github.com/K1ri86/kc_adminV2/archive/refs/heads/main.zip)
+* [kc_adminV2V2](https://github.com/K1ri86/kc_adminV2V2/archive/refs/heads/main.zip)
 ##### Despues recuerda agregar en su ___server.cfg___
 ```
-ensure kc_admin
+ensure kc_adminV2
 ```

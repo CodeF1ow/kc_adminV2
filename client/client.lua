@@ -159,7 +159,7 @@ Citizen.CreateThread(function ()
         Citizen.Wait(0)
 
         if IsControlJustPressed(1, Keys["HOME"]) then
-            ESX.TriggerServerCallback('kc_admin:soyadmin', function(soyadmin)
+            ESX.TriggerServerCallback('kc_adminV2:soyadmin', function(soyadmin)
                 if soyadmin then
                     OpenMenu()
                 end
@@ -175,7 +175,7 @@ end)
 Citizen.CreateThread(function ()
     while true do
 
-        TriggerServerEvent("kc_admin:request_group")
+        TriggerServerEvent("kc_adminV2:request_group")
 
         Citizen.Wait(600000)
 
@@ -261,7 +261,7 @@ Citizen.CreateThread(function ()
                 if jail_time <= 0 then
                     local player_server_id = GetPlayerServerId(PlayerId())
 
-                    TriggerServerEvent("kc_admin:unjail", player_server_id, false)
+                    TriggerServerEvent("kc_adminV2:unjail", player_server_id, false)
                 else
                     jail_time = jail_time - 1
                 end
@@ -296,26 +296,26 @@ RegisterNUICallback("msg", function (data)
 end)
 
 RegisterNUICallback("remove_warn", function (data)
-    TriggerServerEvent("kc_admin:delete_warn", data.id)
+    TriggerServerEvent("kc_adminV2:delete_warn", data.id)
 end)
 
 RegisterNUICallback("warn", function (data)
-    TriggerServerEvent("kc_admin:warn", data.id, data.reason, data.date, data.table_id)
+    TriggerServerEvent("kc_adminV2:warn", data.id, data.reason, data.date, data.table_id)
 end)
 
 RegisterNUICallback("kick", function (data)
-    TriggerServerEvent("kc_admin:kick", "", data.id, data.reason)
+    TriggerServerEvent("kc_adminV2:kick", "", data.id, data.reason)
 end)
 
 RegisterNUICallback("ban", function (data)
-    TriggerServerEvent("kc_admin:ban", "", data.id, data.reason, "permanent")
+    TriggerServerEvent("kc_adminV2:ban", "", data.id, data.reason, "permanent")
 end)
 
 RegisterNUICallback("bring", function (data)
     local admin_coords = GetEntityCoords(PlayerPedId())
     local target_id = data.id
 
-    TriggerServerEvent("kc_admin:bring", admin_coords, target_id)
+    TriggerServerEvent("kc_adminV2:bring", admin_coords, target_id)
 
 end)
 
@@ -323,13 +323,13 @@ RegisterNUICallback("bring_all", function (data)
     local admin_coords = GetEntityCoords(PlayerPedId())
     local target_id = data.id
 
-    TriggerServerEvent("kc_admin:bring", admin_coords, -1)
+    TriggerServerEvent("kc_adminV2:bring", admin_coords, -1)
 
 end)
 
 RegisterNUICallback("remove_ban", function(data)
 	local target_id = data.id
-    TriggerServerEvent("kc_admin:delete_ban", target_id)
+    TriggerServerEvent("kc_adminV2:delete_ban", target_id)
 end)
 
 RegisterNUICallback("goto", function (data)
@@ -340,97 +340,97 @@ RegisterNUICallback("goto", function (data)
 
     target_coords = fixVector(target_coords)
 
-    TriggerServerEvent("kc_admin:goto", target_id, target_coords)
+    TriggerServerEvent("kc_adminV2:goto", target_id, target_coords)
 end)
 
 RegisterNUICallback("return", function (data)
-    TriggerServerEvent("kc_admin:return", data.id)
+    TriggerServerEvent("kc_adminV2:return", data.id)
 end)
 
 RegisterNUICallback("noclip", function (data)
 
     local target_id = data.id
-    TriggerServerEvent("kc_admin:noclip", target_id)
+    TriggerServerEvent("kc_adminV2:noclip", target_id)
 
 end)
 
 RegisterNUICallback("visibility", function (data)
 
     local target_id = data.id
-    TriggerServerEvent("kc_admin:visibility", target_id)
+    TriggerServerEvent("kc_adminV2:visibility", target_id)
 
 end)
 
 RegisterNUICallback("slay", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:slay", target_id)
+    TriggerServerEvent("kc_adminV2:slay", target_id)
 end)
 
 RegisterNUICallback("slay_all", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:slay", -1)
+    TriggerServerEvent("kc_adminV2:slay", -1)
 end)
 
 RegisterNUICallback("revive", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:revive", target_id)
+    TriggerServerEvent("kc_adminV2:revive", target_id)
 end)
 
 RegisterNUICallback("revive_all", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:revive", -1)
+    TriggerServerEvent("kc_adminV2:revive", -1)
 end)
 
 RegisterNUICallback("freeze", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:freeze", target_id)
+    TriggerServerEvent("kc_adminV2:freeze", target_id)
 end)
 
 RegisterNUICallback("freeze_all", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:freeze", -1)
+    TriggerServerEvent("kc_adminV2:freeze", -1)
 end)
 
 RegisterNUICallback("jail", function (data)
     local target_id = data.id
     local time = tonumber(data.time)
-    TriggerServerEvent("kc_admin:jail", target_id, time)
+    TriggerServerEvent("kc_adminV2:jail", target_id, time)
 end)
 
 RegisterNUICallback("unjail", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:unjail", target_id, true)
+    TriggerServerEvent("kc_adminV2:unjail", target_id, true)
 end)
 
 RegisterNUICallback("set_money", function (data)
     local target_id = data.id
     local money_type = data.money_type
     local money_amount = data.amount
-    TriggerServerEvent("kc_admin:set_money", target_id, money_amount, money_type)
+    TriggerServerEvent("kc_adminV2:set_money", target_id, money_amount, money_type)
 end)
 
 RegisterNUICallback("set_job", function (data)
     local target_id = data.id
     local job_name = data.job_name
     local job_grade = data.job_grade
-    TriggerServerEvent("kc_admin:set_job", target_id, job_name, job_grade)
+    TriggerServerEvent("kc_adminV2:set_job", target_id, job_name, job_grade)
 end)
 
 RegisterNUICallback("set_group", function (data)
     local target_id = data.id
     local group = data.group
-    TriggerServerEvent("kc_admin:set_group", "", target_id, group)
+    TriggerServerEvent("kc_adminV2:set_group", "", target_id, group)
 end)
 
 RegisterNUICallback("request_warns", function (data)
     local target_id = data.id
-    TriggerServerEvent("kc_admin:get_warns", target_id)
+    TriggerServerEvent("kc_adminV2:get_warns", target_id)
 end)
 
 RegisterNUICallback("get_bans", function (data)
     local ban_filter_days = data.days
     local ban_filter_name = data.name
-    TriggerServerEvent("kc_admin:get_bans", ban_filter_days, ban_filter_name)
+    TriggerServerEvent("kc_adminV2:get_bans", ban_filter_days, ban_filter_name)
 end)
 
 -- NUI Callbacks --
@@ -440,28 +440,28 @@ end)
 AddEventHandler('playerSpawned', function(spawn)
     loaded = true
     dead = false
-    TriggerServerEvent("kc_admin:check_jail")
+    TriggerServerEvent("kc_adminV2:check_jail")
 end)
 
 AddEventHandler('esx:onPlayerDeath', function(data)
     dead = true
 end)
 
-RegisterNetEvent("kc_admin:loaded_player")
-AddEventHandler("kc_admin:loaded_player", function ()
+RegisterNetEvent("kc_adminV2:loaded_player")
+AddEventHandler("kc_adminV2:loaded_player", function ()
     Citizen.CreateThread(function ()
         Citizen.Wait(2000)
         loaded = true
     end)
 end)
 
-RegisterNetEvent("kc_admin:request_jail")
-AddEventHandler("kc_admin:request_jail", function (target_id, time)
-    TriggerServerEvent("kc_admin:jail", target_id, time)
+RegisterNetEvent("kc_adminV2:request_jail")
+AddEventHandler("kc_adminV2:request_jail", function (target_id, time)
+    TriggerServerEvent("kc_adminV2:jail", target_id, time)
 end)
 
-RegisterNetEvent("kc_admin:recv_warn")
-AddEventHandler("kc_admin:recv_warn", function (id_, result)
+RegisterNetEvent("kc_adminV2:recv_warn")
+AddEventHandler("kc_adminV2:recv_warn", function (id_, result)
     local Source = source
 
     if Source ~= "" then
@@ -472,8 +472,8 @@ AddEventHandler("kc_admin:recv_warn", function (id_, result)
 
 end)
 
-RegisterNetEvent("kc_admin:recv_bans")
-AddEventHandler("kc_admin:recv_bans", function (bans_data)
+RegisterNetEvent("kc_adminV2:recv_bans")
+AddEventHandler("kc_adminV2:recv_bans", function (bans_data)
     local Source = source
 
     if Source ~= "" then
@@ -483,43 +483,43 @@ AddEventHandler("kc_admin:recv_bans", function (bans_data)
     end
 end)
 
-RegisterNetEvent("kc_admin:send_notify")
-AddEventHandler("kc_admin:send_notify", function(title_, text_, type_)
+RegisterNetEvent("kc_adminV2:send_notify")
+AddEventHandler("kc_adminV2:send_notify", function(title_, text_, type_)
     SendNUIMessage({type = "notify", title = title_, text = text_, type_notify = type_})
 end)
 
-RegisterNetEvent("kc_admin:order_group")
-AddEventHandler("kc_admin:order_group", function ()
-    TriggerServerEvent("kc_admin:request_group")
+RegisterNetEvent("kc_adminV2:order_group")
+AddEventHandler("kc_adminV2:order_group", function ()
+    TriggerServerEvent("kc_adminV2:request_group")
 end)
 
-RegisterNetEvent("kc_admin:get_group")
-AddEventHandler("kc_admin:get_group", function (server_group)
+RegisterNetEvent("kc_adminV2:get_group")
+AddEventHandler("kc_adminV2:get_group", function (server_group)
     group = server_group
 end)
 
-RegisterNetEvent("kc_admin:send_message")
-AddEventHandler("kc_admin:send_message", function (msg)
+RegisterNetEvent("kc_adminV2:send_message")
+AddEventHandler("kc_adminV2:send_message", function (msg)
     SendMessage(msg)
 end)
 
-RegisterNetEvent("kc_admin:send_raw_message")
-AddEventHandler("kc_admin:send_raw_message", function (msg)
+RegisterNetEvent("kc_adminV2:send_raw_message")
+AddEventHandler("kc_adminV2:send_raw_message", function (msg)
     TriggerEvent("chatMessage", "", {0, 0, 0}, msg)
 end)
 
-RegisterNetEvent("kc_admin:fix_table")
-AddEventHandler("kc_admin:fix_table", function (table_id, warn_id)
+RegisterNetEvent("kc_adminV2:fix_table")
+AddEventHandler("kc_adminV2:fix_table", function (table_id, warn_id)
     SendNUIMessage({type = "fix_table", table = table_id, warn = warn_id})
 end)
 
-RegisterNetEvent("kc_admin:remove_table")
-AddEventHandler("kc_admin:remove_table", function (table_id)
+RegisterNetEvent("kc_adminV2:remove_table")
+AddEventHandler("kc_adminV2:remove_table", function (table_id)
     SendNUIMessage({type = "remove_table", table = table_id})
 end)
 
-RegisterNetEvent("kc_admin:return_player")
-AddEventHandler("kc_admin:return_player", function ()
+RegisterNetEvent("kc_adminV2:return_player")
+AddEventHandler("kc_adminV2:return_player", function ()
     local Source = source
 
     if Source ~= "" then
@@ -532,8 +532,8 @@ AddEventHandler("kc_admin:return_player", function ()
 
 end)
 
-RegisterNetEvent("kc_admin:teleport_player")
-AddEventHandler("kc_admin:teleport_player", function (coords_vector3)
+RegisterNetEvent("kc_adminV2:teleport_player")
+AddEventHandler("kc_adminV2:teleport_player", function (coords_vector3)
     local Source = source
 
     last_pos = fixVector(GetEntityCoords(PlayerPedId()))
@@ -549,8 +549,8 @@ AddEventHandler("kc_admin:teleport_player", function (coords_vector3)
 
 end)
 
-RegisterNetEvent("kc_admin:noclip_player")
-AddEventHandler("kc_admin:noclip_player", function ()
+RegisterNetEvent("kc_adminV2:noclip_player")
+AddEventHandler("kc_adminV2:noclip_player", function ()
     local Source = source
 
     if Source ~= "" then
@@ -573,8 +573,8 @@ AddEventHandler("kc_admin:noclip_player", function ()
 
 end)
 
-RegisterNetEvent("kc_admin:visibility_player")
-AddEventHandler("kc_admin:visibility_player", function ()
+RegisterNetEvent("kc_adminV2:visibility_player")
+AddEventHandler("kc_adminV2:visibility_player", function ()
     local Source = source
 
     if Source ~= "" then
@@ -593,8 +593,8 @@ AddEventHandler("kc_admin:visibility_player", function ()
 
 end)
 
-RegisterNetEvent("kc_admin:slay_player")
-AddEventHandler("kc_admin:slay_player", function ()
+RegisterNetEvent("kc_adminV2:slay_player")
+AddEventHandler("kc_adminV2:slay_player", function ()
     local Source = source
 
     if Source ~= "" then
@@ -612,8 +612,8 @@ AddEventHandler("kc_admin:slay_player", function ()
 
 end)
 
-RegisterNetEvent("kc_admin:revive_player")
-AddEventHandler("kc_admin:revive_player", function()
+RegisterNetEvent("kc_adminV2:revive_player")
+AddEventHandler("kc_adminV2:revive_player", function()
     local local_ped = PlayerPedId()
     local local_coords = GetEntityCoords(local_ped)
 
@@ -645,8 +645,8 @@ AddEventHandler("kc_admin:revive_player", function()
 
 end)
 
-RegisterNetEvent("kc_admin:freeze_player")
-AddEventHandler("kc_admin:freeze_player", function ()
+RegisterNetEvent("kc_adminV2:freeze_player")
+AddEventHandler("kc_adminV2:freeze_player", function ()
     local Source = source
 
     if Source ~= "" then
@@ -667,8 +667,8 @@ AddEventHandler("kc_admin:freeze_player", function ()
 
 end)
 
-RegisterNetEvent("kc_admin:jail_player")
-AddEventHandler("kc_admin:jail_player", function (time)
+RegisterNetEvent("kc_adminV2:jail_player")
+AddEventHandler("kc_adminV2:jail_player", function (time)
     local Source = source
 
     if Source ~= "" then
@@ -698,8 +698,8 @@ AddEventHandler("kc_admin:jail_player", function (time)
     end
 end)
 
-RegisterNetEvent("kc_admin:unjail_player")
-AddEventHandler("kc_admin:unjail_player", function ()
+RegisterNetEvent("kc_adminV2:unjail_player")
+AddEventHandler("kc_adminV2:unjail_player", function ()
     local Source = source
 
     if Source ~= "" then
