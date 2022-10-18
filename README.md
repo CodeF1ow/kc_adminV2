@@ -38,8 +38,9 @@ ___server.cfg___
 ```
 ensure kc_adminV2
 ```
+___
 ```diff
-- Considere dejar una estrella en el repositorio para apoyar el proyecto.
+- Dejar una estrella en el repositorio para apoyar el proyecto es de gran ayuda. ❤️
 ```
 ___
 # Contribuir
