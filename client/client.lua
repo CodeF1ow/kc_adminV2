@@ -59,7 +59,7 @@ function ArrayLength (table)
     return count
 end
 
-function SendMessage(msg) 
+function SendMessage(msg)
     TriggerEvent("chatMessage", "^0[^5KC Admin^0]", {0, 0, 0}, " ^0" .. msg)
 end
 
@@ -71,7 +71,7 @@ function getPlayers ()
             table.insert(pre_players, GetPlayerServerId(i))
 		end
     end
-    
+
     table.sort(pre_players)
 
     local players = {}
@@ -103,6 +103,8 @@ function RespawnPed (ped, coords, heading)
 	NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
     SetPlayerInvincible(ped, false)
     SetEntityVisible(ped, true)
+    TriggerServerEvent('esx:onPlayerSpawn')
+    TriggerEvent('esx:onPlayerSpawn')
 	TriggerEvent('playerSpawned', coords.x, coords.y, coords.z)
 	ClearPedBloodDamage(ped)
 end
@@ -140,7 +142,7 @@ function drawTimeText(time, red, green, blue, alpha)
 	SetTextCentre(true)
 
     BeginTextCommandDisplayText("STRING")
-    
+
     local text = string.format(Lang.JailedTime, tostring(time))
 
 	AddTextComponentSubstringPlayerName(text)
@@ -353,7 +355,7 @@ RegisterNUICallback("noclip", function (data)
 end)
 
 RegisterNUICallback("visibility", function (data)
-    
+
     local target_id = data.id
     TriggerServerEvent("kc_admin:visibility", target_id)
 
@@ -533,15 +535,15 @@ end)
 RegisterNetEvent("kc_admin:teleport_player")
 AddEventHandler("kc_admin:teleport_player", function (coords_vector3)
     local Source = source
-    
-    last_pos = fixVector(GetEntityCoords(GetPlayerPed(-1)))
+
+    last_pos = fixVector(GetEntityCoords(PlayerPedId()))
 
     if Source ~= "" then
         if tonumber(Source) > 64 then
-            SetEntityCoords(GetPlayerPed(-1), coords_vector3)
-            FreezeEntityPosition(GetPlayerPed(-1), true)
+            SetEntityCoords(PlayerPedId(), coords_vector3)
+            FreezeEntityPosition(PlayerPedId(), true)
             Citizen.Wait(1000)
-            FreezeEntityPosition(GetPlayerPed(-1), false)
+            FreezeEntityPosition(PlayerPedId(), false)
         end
     end
 
@@ -554,7 +556,7 @@ AddEventHandler("kc_admin:noclip_player", function ()
     if Source ~= "" then
         if tonumber(Source) > 64 then
             if not noclip then
-                noclip_pos = GetEntityCoords(GetPlayerPed(-1), false)
+                noclip_pos = GetEntityCoords(PlayerPedId(), false)
             end
 
             noclip = not noclip
@@ -574,14 +576,14 @@ end)
 RegisterNetEvent("kc_admin:visibility_player")
 AddEventHandler("kc_admin:visibility_player", function ()
     local Source = source
-    
+
     if Source ~= "" then
         if tonumber(Source) > 64 then
             if not visibility then
-                SetEntityVisible(GetPlayerPed(-1), true)
+                SetEntityVisible(PlayerPedId(), true)
                 SendMessage("Ahora eres ^2visible^0")
             else
-                SetEntityVisible(GetPlayerPed(-1), false)
+                SetEntityVisible(PlayerPedId(), false)
                 SendMessage("Ahora eres ^3invisible^0")
             end
         end
@@ -597,13 +599,13 @@ AddEventHandler("kc_admin:slay_player", function ()
 
     if Source ~= "" then
         if tonumber(Source) > 64 then
-            local local_ped = GetPlayerPed(-1)
+            local local_ped = PlayerPedId()
             SendMessage("^1" .. Lang.Slay)
-        
+
             if Config.AmbulanceJob then
                 TriggerServerEvent('esx_ambulancejob:setDeathStatus', true)
             end
-        
+
             SetEntityHealth(local_ped, 0)
         end
     end
@@ -611,41 +613,35 @@ AddEventHandler("kc_admin:slay_player", function ()
 end)
 
 RegisterNetEvent("kc_admin:revive_player")
-AddEventHandler("kc_admin:revive_player", function ()
-    local Source = source
+AddEventHandler("kc_admin:revive_player", function()
+    local local_ped = PlayerPedId()
+    local local_coords = GetEntityCoords(local_ped)
 
-    if Source ~= "" then
-        if tonumber(Source) > 64 then
-            local local_ped = GetPlayerPed(-1)
-            local local_coords = GetEntityCoords(local_ped)
-
-            if not dead then
-                SetEntityHealth(local_ped, 200)
-                CancelEvent()
-                return
-            end
-        
-            Citizen.CreateThread(function()
-                DoScreenFadeOut(800)
-        
-                while not IsScreenFadedOut() do
-                    Citizen.Wait(50)
-                end
-        
-                if Config.AmbulanceJob then
-                    TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
-                    TriggerServerEvent('esx:updateLastPosition', local_coords)
-                end
-                
-                RespawnPed(local_ped, local_coords, 0.0)
-        
-                SendMessage("^2" .. Lang.Revive)
-        
-                StopScreenEffect('DeathFailOut')
-                DoScreenFadeIn(800)
-            end)
-        end
+    if not dead then
+        SetEntityHealth(local_ped, 200)
+        CancelEvent()
+        return
     end
+
+    Citizen.CreateThread(function()
+        DoScreenFadeOut(800)
+
+        while not IsScreenFadedOut() do
+            Citizen.Wait(50)
+        end
+
+        if Config.AmbulanceJob then
+            TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
+            TriggerServerEvent('esx:updateLastPosition', local_coords)
+        end
+
+        RespawnPed(local_ped, local_coords, 0.0)
+
+        SendMessage("^2" .. Lang.Revive)
+
+        StopScreenEffect('DeathFailOut')
+        DoScreenFadeIn(800)
+    end)
 
 end)
 
@@ -657,10 +653,10 @@ AddEventHandler("kc_admin:freeze_player", function ()
         if tonumber(Source) > 64 then
             freeze = not freeze
 
-            local local_ped = GetPlayerPed(-1)
-        
+            local local_ped = PlayerPedId()
+
             FreezeEntityPosition(local_ped, freeze)
-        
+
             if freeze then
                 SendMessage(Lang.FreezeMsg)
             else
@@ -677,7 +673,7 @@ AddEventHandler("kc_admin:jail_player", function (time)
 
     if Source ~= "" then
         if tonumber(Source) > 64 then
-            local local_ped = GetPlayerPed(-1)
+            local local_ped = PlayerPedId()
             local time_minutes = math.floor(time / 60)
             local Jail = randomArray(Config.Jails)
 
@@ -698,7 +694,7 @@ AddEventHandler("kc_admin:jail_player", function (time)
                 SendMessage("^1" .. Lang.Jailed .. tostring(time_minutes) .. "" .. Lang.Minutes .. " " .. Lang.Plus)
                 FreezeEntityPosition(local_ped, false)
             end
-        end 
+        end
     end
 end)
 
@@ -708,7 +704,7 @@ AddEventHandler("kc_admin:unjail_player", function ()
 
     if Source ~= "" then
         if tonumber(Source) > 64 then
-            local local_ped = GetPlayerPed(-1)
+            local local_ped = PlayerPedId()
             local local_player = PlayerId()
 
             SendMessage("^2" .. Lang.UnJailed)
