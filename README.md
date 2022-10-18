@@ -29,7 +29,19 @@ git clone https://github.com/K1ri86/kc_adminV2
 ```
 ##### Tambien puedes descargar directamente desde aqui 
 * [kc_adminV2](https://github.com/K1ri86/kc_adminV2/archive/refs/heads/main.zip)
-##### Despues recuerda agregar en su ___server.cfg___
+____
+##### Despues recuerda agregar
+* Importar a su base de datos `panel.sql`
+
+___server.cfg___
+
 ```
 ensure kc_adminV2
 ```
+```diff
+- Considere dejar una estrella en el repositorio para apoyar el proyecto.
+```
+___
+# Contribuir
+
+>Si desea ayudar a mejorar el código, corregir errores de ortografía, diseño o, si es posible, incluso errores de código, puede crear PULL REQUEST. Por favor considere que [Kiri86#8565](https://github.com/K1ri86) es el principal desarrollador de este recurso, agradecer a [Poke#4935](https://github.com/PokeSer) por la ayuda en varios problemas con el codigo y gracias a cualquiera que considere ayudar en este proyecto!
