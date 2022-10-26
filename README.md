@@ -6,7 +6,7 @@
 ***Administration Panel for*** **FiveM** [**kc_adminV2**](https://github.com/K1ri86/kc_adminV2/archive/refs/heads/main.zip)
 
 <p align="center">
-    <img src="https://i.imgur.com/K35wlpO.png" width="1920">
+    <img src="https://i.imgur.com/K35wlpO.png" width="420">
 </p>
 
 
